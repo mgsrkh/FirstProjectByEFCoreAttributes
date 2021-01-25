@@ -21,8 +21,8 @@ namespace SecondProjectEFCoreAttributes.Controllers
         [HttpGet("{id}")]
         public IActionResult GetVendors([FromRoute] int id)
         {
-            var result = _vendorService.GetVendorsById(id);
-            return Ok(result);
+            var GetVendorById = _vendorService.GetVendorsById(id);
+            return Ok(GetVendorById);
         }
 
         [HttpPost]
@@ -67,8 +67,8 @@ namespace SecondProjectEFCoreAttributes.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteVendor([FromRoute] int id)
         {
-            var result = _vendorService.Delete(id);
-            if (result)
+            var vendoeDeleted = _vendorService.Delete(id);
+            if (vendoeDeleted)
             {
                 return Ok();
             }

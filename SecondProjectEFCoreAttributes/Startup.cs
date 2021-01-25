@@ -31,7 +31,6 @@ namespace SecondProjectEFCoreAttributes
             services.AddScoped<IVendorRepository, VendorRepository>();
             services.AddScoped<ITagRepository, TagRepository>();
             services.AddScoped<IVendorService, VendorService>();
-
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
