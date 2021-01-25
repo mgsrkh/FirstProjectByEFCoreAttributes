@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
-namespace SecondProjectEFCoreAttributes.DTOs.Tags
+namespace SecondProjectEFCoreAttributes.CustomAnnotation
 {
-    public class TagDTO
+    public class TagsIcollectionAnnotation : Attribute
     {
         [Required]
         [MaxLength(128)]

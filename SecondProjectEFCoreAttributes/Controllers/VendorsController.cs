@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.JsonPatch;
+﻿using FirstProject.DTOs.Vendors;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using SecondProjectEFCoreAttributes.ApplicationServices.IServices;
 using SecondProjectEFCoreAttributes.DTOs.Vendors;
+using SecondProjectEFCoreAttributes.Models;
+using System;
 
 namespace SecondProjectEFCoreAttributes.Controllers
 {
@@ -18,44 +21,42 @@ namespace SecondProjectEFCoreAttributes.Controllers
         [HttpGet("{id}")]
         public IActionResult GetVendors([FromRoute] int id)
         {
-            var result = _vendorService.GetAll(id);
+            var result = _vendorService.GetVendorsById(id);
             return Ok(result);
         }
 
         [HttpPost]
-        public IActionResult InsertVendor([FromBody] VendorInsertDTO dto)
+        public IActionResult InsertVendor([FromBody] VendorInsertResponseDTO dto)
         {
-            var result = _vendorService.Insert(dto);
+            var vendorInsertResponse = _vendorService.Insert(dto);
 
-            if (result)
-            {
-                return Ok();
-            }
-            else
-            {
-                return BadRequest();
-            }
+            return Created(new Uri($"/api/Vendors/{vendorInsertResponse.Id}", UriKind.Relative), vendorInsertResponse);
         }
+
         [HttpPut]
         public IActionResult UpdateVendor(VendorUpdateDTO dto)
         {
-            var result = _vendorService.Update(dto);
-            if (result)
+            var vendorUpdateResponse = _vendorService.Update(dto);
+
+            if (vendorUpdateResponse)
             {
-                return Ok();
+                return Ok(vendorUpdateResponse);
             }
             else
             {
                 return BadRequest();
             }
-        }       
+        }
         [HttpPatch("{id}")]
-        public StatusCodeResult PatchVendor([FromBody] JsonPatchDocument<VendorDTO> patch, [FromRoute] int id)
+        public StatusCodeResult PatchVendor([FromBody] JsonPatchDocument<Vendor> patch, [FromRoute] int id)
         {
-            VendorDTO res = _vendorService.GetByIdForPatch(id);
-            if (res != null)
+            var jsonPatchApply = _vendorService.GetVendorByIdForJsonPatchDoc(id);
+
+            patch.ApplyTo(jsonPatchApply);
+
+            var savePatched = _vendorService.SavePatchChanges(jsonPatchApply);
+            if (savePatched > 0)
             {
-                patch.ApplyTo(res);
                 return Ok();
             }
             else
@@ -63,7 +64,6 @@ namespace SecondProjectEFCoreAttributes.Controllers
                 return BadRequest();
             }
         }
-
         [HttpDelete("{id}")]
         public IActionResult DeleteVendor([FromRoute] int id)
         {

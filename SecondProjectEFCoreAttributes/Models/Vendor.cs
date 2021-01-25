@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SecondProjectEFCoreAttributes.CustomAnnotation;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -23,8 +24,8 @@ namespace SecondProjectEFCoreAttributes.Models
         [StringLength(128)]
         public string Title { get; set; }
         [Required]
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime Date { get; set; }
+        [TagsIcollectionAnnotation]
         public ICollection<Tag> Tags { get; set; }
     }
 }

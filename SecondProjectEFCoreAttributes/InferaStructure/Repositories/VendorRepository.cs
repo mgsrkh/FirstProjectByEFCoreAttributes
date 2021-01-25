@@ -15,7 +15,7 @@ namespace SecondProjectEFCoreAttributes.InferaStructure.Repositories
         {
             _db = db;
         }
-        public Vendor GetAll(int id)
+        public Vendor GetVendorById(int id)
         {
             return _db.Vendor.Where(x => x.Id == id).Include(x => x.Tags).FirstOrDefault();
         }
@@ -23,10 +23,11 @@ namespace SecondProjectEFCoreAttributes.InferaStructure.Repositories
         {
             return _db.Vendor.Find(id);
         }
-        public int Insert(Vendor vendor)
+        public Vendor Insert(Vendor vendor)
         {
             _db.Vendor.Add(vendor);
-            return _db.SaveChanges();
+            _db.SaveChanges();
+            return vendor;
         }
         public int Update(Vendor vendor)
         {
@@ -45,11 +46,25 @@ namespace SecondProjectEFCoreAttributes.InferaStructure.Repositories
             _db.Vendor.Remove(result);
             return _db.SaveChanges();
         }
-        public int Patch(int id)
+        public Vendor Patch(Vendor vendor)
         {
-            var result = _db.Vendor.Where(x => x.Id == id).FirstOrDefault();
-            _db.Vendor.Update(result);
+            _db.Vendor.Update(vendor);
+            _db.SaveChanges();
+            return vendor;
+        }
+
+        public int SavePatchChanges(Vendor vendor)
+        {
+            _db.Vendor.Update(vendor);
             return _db.SaveChanges();
+        }
+
+        public Vendor GetByIdForPatch(int id)
+        {
+            var vendor = _db.Set<Vendor>().Find(id);
+            _db.Vendor.AsNoTracking();
+            _db.Entry(vendor).State = EntityState.Detached;
+            return vendor;
         }
     }
 }

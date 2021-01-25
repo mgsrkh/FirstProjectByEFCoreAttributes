@@ -1,17 +1,12 @@
 ﻿using SecondProjectEFCoreAttributes.CustomAnnotation;
 using SecondProjectEFCoreAttributes.DTOs.Tags;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace SecondProjectEFCoreAttributes.DTOs.Vendors
 {
-    public class VendorInsertDTO
+    public class VendorPatchDTO
     {
-        public VendorInsertDTO()
-        {
-            Tags = new List<TagDTO>();
-        }
         [Required]
         [MaxLength(128)]
         public string Name { get; set; }
@@ -21,6 +16,6 @@ namespace SecondProjectEFCoreAttributes.DTOs.Vendors
         [Required]
         public DateTime Date { get; set; }
         [TagsIcollectionAnnotation]
-        public List<TagDTO> Tags { get; set; }
+        public TagDTO Tags { get; set; }
     }
 }

@@ -1,14 +1,18 @@
-﻿using SecondProjectEFCoreAttributes.DTOs.Vendors;
+﻿using FirstProject.DTOs.Vendors;
+using Microsoft.AspNetCore.JsonPatch;
+using SecondProjectEFCoreAttributes.DTOs.Vendors;
+using SecondProjectEFCoreAttributes.Models;
 
 namespace SecondProjectEFCoreAttributes.ApplicationServices.IServices
 {
     public interface IVendorService
     {
-        VendorDTO GetAll(int id);
-        bool Insert(VendorInsertDTO dto);
+        Vendor GetVendorByIdForJsonPatchDoc(int id);
+        VendorDTO GetVendorsById(int id);
+        VendorInsertResponseDTO Insert(VendorInsertResponseDTO dto);
         bool Update(VendorUpdateDTO dto);
         bool Delete(int id);
-        bool Patch(int id);
-        VendorDTO GetByIdForPatch(int id);
+        Vendor GetByIdForJsonPatch(JsonPatchDocument<VendorJsonPatchDTO> vendorPatch, int id);
+        int SavePatchChanges(Vendor vendor);
     }
 }

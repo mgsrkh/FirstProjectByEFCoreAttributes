@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using SecondProjectEFCoreAttributes.CustomAnnotation;
+using System.Collections.Generic;
 
 namespace SecondProjectEFCoreAttributes.DTOs.Vendors
 {
@@ -8,6 +9,7 @@ namespace SecondProjectEFCoreAttributes.DTOs.Vendors
         {
             VendorDTOs = vendorDTOs;
         }
+        [TagsIcollectionAnnotation]
         public ICollection<VendorDTO> VendorDTOs { get; set; }
     }
 }
